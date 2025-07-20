@@ -541,17 +541,60 @@ $wp_customize->add_control('contact_form_desc', [
 }
 add_action('customize_register', 'personalized_theme_customize_register', 20);
 
-// Widgets pour la sidebar
 function theme_custom_setup() {
+    // Support des images à la une
     add_theme_support('post-thumbnails');
+
+    // Enregistrement de la sidebar principale
     register_sidebar([
-        'name' => 'Sidebar principale',
-        'id' => 'sidebar-1',
-        'before_widget' => '<div class="widget">',
-        'after_widget' => '</div>',
-        'before_title' => '<h3>',
-        'after_title' => '</h3>',
+        'name'          => __('Sidebar principale', 'textdomain'),
+        'id'            => 'sidebar-1',
+        'description'   => __('Ajoutez ici vos widgets pour la sidebar.', 'textdomain'),
+        'before_widget' => '<div class="widget %2$s" id="%1$s">',
+        'after_widget'  => '</div>',
+        'before_title'  => '<h3>',
+        'after_title'   => '</h3>',
     ]);
 }
+
 add_action('after_setup_theme', 'theme_custom_setup');
 
+function custom_search_form($form) {
+  $form = '
+    <form role="search" method="get" class="search-form" action="' . home_url('/') . '">
+      <label>
+        <input type="search" class="search-field" placeholder="Type to search" value="' . get_search_query() . '" name="s" />
+      </label>
+      <button type="submit"><span class="dashicons dashicons-search"></span></button>
+    </form>';
+  return $form;
+}
+add_filter('get_search_form', 'custom_search_form');
+
+
+// Ajout des icones
+function theme_enqueue_styles() {
+  wp_enqueue_style('theme-style', get_stylesheet_uri());
+  wp_enqueue_style('fontawesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css', [], null);
+}
+add_action('wp_enqueue_scripts', 'theme_enqueue_styles');
+
+// Gestion de l'envoi du formulaire de contact
+function handle_contact_form() {
+  if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'send_contact_form') {
+    $to = get_option('admin_email'); // ou une autre adresse si besoin
+    $subject = sanitize_text_field($_POST['subject']);
+    $email = sanitize_email($_POST['email']);
+    $phone = sanitize_text_field($_POST['phone']);
+    $message = sanitize_textarea_field($_POST['message']);
+
+    $body = "Email: $email\nPhone: $phone\n\nMessage:\n$message";
+    $headers = ["Reply-To: $email"];
+
+    wp_mail($to, $subject, $body, $headers);
+
+    wp_redirect(home_url('/contact?sent=1'));
+    exit;
+  }
+}
+add_action('template_redirect', 'handle_contact_form');

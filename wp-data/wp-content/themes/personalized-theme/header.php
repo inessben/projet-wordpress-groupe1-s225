@@ -26,6 +26,11 @@
     <button class="close-menu" id="close-btn" aria-label="Fermer">&times;</button>
     <div class="menu-content">
       <div class="left">
+          <div class="logo">
+            <a href="<?php echo esc_url(home_url('/')); ?>">
+              ESGI<span class="dot">.</span>
+            </a>
+          </div>
         <span class="search-hint">Or try Search</span>
       </div>
       <ul class="right">

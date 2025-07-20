@@ -21,17 +21,11 @@
             </div>
         </div>
         <!-- Bloc 3 : Réseaux sociaux -->
-        <div class="footer-col socials-col">
-            <div class="social-icon">
-                <a href="https://linkedin.com" target="_blank" aria-label="LinkedIn">
-                    <?php echo tp_getIcon('linkedin'); ?>
-                </a>
-            </div>
-            <div class="social-icon">
-                <a href="https://facebook.com" target="_blank" aria-label="Facebook">
-                    <?php echo tp_getIcon('facebook'); ?>
-                </a>
-            </div>
+
+        <!-- <div class="socials-icon"> -->
+            <!-- <a href="#"><i class="fab fa-linkedin-in"></i></a> -->
+            <!-- <a href="#"><i class="fab fa-facebook-f"></i></a> -->
+        <!-- </div> -->
         </div>
     </div>
     <!-- Mention -->

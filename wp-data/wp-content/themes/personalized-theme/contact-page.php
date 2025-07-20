@@ -4,6 +4,12 @@ Template Name: Contact
 */
 get_header(); ?>
 
+<?php if (isset($_GET['sent']) && $_GET['sent'] == '1') : ?>
+  <div class="form-success">
+    ✔ Your message has been sent successfully.
+  </div>
+<?php endif; ?>
+
 <section class="contact-page">
 
   <!-- Bloc Intro -->
@@ -42,7 +48,8 @@ get_header(); ?>
     <h2><?php echo get_theme_mod('contact_form_title'); ?></h2>
     <p class="form-sub"><?php echo get_theme_mod('contact_form_desc'); ?></p>
 
-    <form method="post" action="#">
+    <form method="post" action="">
+      <input type="hidden" name="action" value="send_contact_form">
       <input type="text" name="subject" placeholder="Subject" required>
 
       <div class="form-flex">
