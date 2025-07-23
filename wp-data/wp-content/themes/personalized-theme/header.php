@@ -56,6 +56,5 @@
     </div>
   </nav>
 </header>
-<?php wp_footer(); ?>
-</body>
-</html>
+
+<div class="site-wrapper">

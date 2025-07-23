@@ -597,3 +597,39 @@ function handle_contact_form() {
   }
 }
 add_action('template_redirect', 'handle_contact_form');
+
+// Forcer le flush des règles de réécriture après l'activation du thème
+function personalized_theme_flush_rewrite_rules() {
+    flush_rewrite_rules();
+}
+add_action('after_switch_theme', 'personalized_theme_flush_rewrite_rules');
+
+// S'assurer que les permaliens fonctionnent correctement
+function personalized_theme_init() {
+    // Activer le support pour les permaliens personnalisés
+    add_theme_support('title-tag');
+    add_theme_support('html5', array(
+        'search-form',
+        'comment-form',
+        'comment-list',
+        'gallery',
+        'caption',
+    ));
+}
+add_action('after_setup_theme', 'personalized_theme_init');
+
+// Corriger les requêtes pour les articles et configurer la pagination
+function personalized_theme_parse_query($query) {
+    if (!is_admin() && $query->is_main_query()) {
+        if (is_single()) {
+            // S'assurer que l'article est bien trouvé
+            $query->set('post_status', 'publish');
+        }
+        
+        // Configuration de la pagination pour la page d'accueil/blog et les archives
+        if (is_home() || is_front_page() || is_archive()) {
+            $query->set('posts_per_page', 6);
+        }
+    }
+}
+add_action('pre_get_posts', 'personalized_theme_parse_query');
