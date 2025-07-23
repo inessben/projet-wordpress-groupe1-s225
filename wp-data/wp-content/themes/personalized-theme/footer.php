@@ -20,12 +20,7 @@
                 <p><a href="mailto:ceo@company.com">ceo@company.com</a></p>
             </div>
         </div>
-        <!-- Bloc 3 : Réseaux sociaux -->
 
-        <!-- <div class="socials-icon"> -->
-            <!-- <a href="#"><i class="fab fa-linkedin-in"></i></a> -->
-            <!-- <a href="#"><i class="fab fa-facebook-f"></i></a> -->
-        <!-- </div> -->
         </div>
     </div>
     <!-- Mention -->
